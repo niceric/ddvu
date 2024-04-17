@@ -21,10 +21,10 @@ print(df.tail(10))
 print("-------------------------- LOOK AT COLUMN PER NAME ('headline') --------------------------")
 print(df["headline"])
 
-print("-------------------------- ACCESS DATA PER INDEX/'iloc' --------------------------")
+print("-------------------------- ACCESS DATA PER INDEX/'iloc (ROW)' --------------------------")
 print(df.iloc[1])
 
-print("-------------------------- DISPLAY STRINGS IN A COLUMN (ex. specified jobs) '.isin()' --------------------------")
+print("-------------------------- DISPLAY STRINGS IN A COLUMN (ex. specific jobs 'sjuksköterska, undersköterska' in column 'headline') '.isin()' --------------------------")
 yrken = ["sjuksköterska", "undersköterska"]
 print(df[df["headline"].isin(yrken)])
 
