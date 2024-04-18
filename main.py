@@ -2,7 +2,8 @@ import pandas as pd
 import json
 
 pd.set_option("display.max.rows", 1000, "display.max.columns", 36)
-with open('dataset/subset.json', 'r') as file: data = json.load(file)
+with open('dataset/subset.json', 'r') as file: 
+    data = json.load(file)
 df = pd.json_normalize(data)
 
 
