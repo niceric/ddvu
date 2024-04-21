@@ -1,6 +1,43 @@
 import pandas as pd
 import json
 
+def get_number_of_words(text):
+    #counter = 0 
+    total_words = text.split()
+    words = {}
+ 
+    for word in total_words:
+        lowered = word.lower()
+        if lowered in words:
+            words[lowered] += 1
+            #counter += 1
+        else: 
+            words[lowered] = 1            
+            #counter += 1
+
+    return words
+
+def get_list_of_words(text):
+        count_of_words = get_number_of_words(text)
+        x = []
+
+        
+        def create_list(text):
+            for item in count_of_words:
+                if item.isalpha():
+                    temp_dict = dict(char = item, num = count_of_words[item])
+                    x.append(temp_dict)
+                    
+        
+            def sort_on(dict):
+                return dict["num"]
+            x.sort(reverse=True, key=sort_on)
+        
+        create_list(count_of_words)
+        return x
+
+
+
 pd.set_option("display.max.rows", 1000, "display.max.columns", 36)
 with open('dataset/subset.json', 'r') as file: 
     data = json.load(file)
@@ -81,6 +118,26 @@ print(list_of_working_hours)
 
 print(len(list_of_working_hours))
 #print(df)
+text_labels = sorterade_2["description.text"]
+list_of_labels = text_labels.tolist()
+print(len(list_of_labels))
+for label in list_of_labels:
+    
+    print(label)
+    print(f"-- Antal ord i annonsen: ")
+    get_list_of_words(label)
+    for new_dict in get_list_of_words(label):
+        print(f"Ordet: '{new_dict["char"]}' fanns {new_dict["num"]} gånger.")
+    print("--------------------------------------------------- NEXT")
+    #print(get_list_of_words(label))
+    
+    #for dict in get_list_of_words(label):         
+    #    print(f"The '{dict["char"]}' character was found {dict["num"]} times.")
+    #    print("--------------------------------------------------- NEXT")
+
+#print(text_labels[907])
+#for label in text_labels:
+#    print(label)
 
 
 
