@@ -105,7 +105,7 @@ working_hours_type = df["working_hours_type.label"]
 print(working_hours_type.value_counts())
 
 # Skriver ut all data för kolumnen working_hours_type där "sjuk" omnämns i headline  
-sorterade_2 = df[df["headline"].str.contains("sjuk")]
+sorterade_2 = df[df["headline"].str.contains("sjuk", "vård")]
 test_1 = sorterade_2["working_hours_type.label"]
 print(test_1)
 print(test_1.value_counts())
