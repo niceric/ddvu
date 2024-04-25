@@ -1,0 +1,80 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Läs in CSV-filen och skapa subset
+df = pd.read_csv('subset_2023.csv', usecols=['application_deadline', 'headline', 'number_of_vacancies', 'publication_date', 'description.text', 'duration.label', 'employer.name', 'working_hours_type.label', 'workplace_address.city', 'workplace_address.municipality_code'])
+
+# Visa de första raderna av datasetet för att få en överblick
+print("Första raderna av datasetet:")
+print(df.head())
+
+# Kontrollera datatyper för varje kolumn
+print("\nDatatyper för varje kolumn:")
+print(df.dtypes)
+
+# Kontrollera antal saknade värden för varje kolumn
+print("\nAntal saknade värden per kolumn:")
+print(df.isnull().sum())
+
+# Ersätt saknade värden med medianen för numeriska variabler och mest frekventa för kategoriska variabler
+numerical_vars = ['number_of_vacancies']
+categorical_vars = ['duration.label', 'working_hours_type.label', 'workplace_address.city']
+
+for var in numerical_vars:
+    df[var].fillna(df[var].median(), inplace=True)
+
+for var in categorical_vars:
+    mode_val = df[var].mode()[0]
+    df[var].fillna(mode_val, inplace=True)
+
+# Kontrollera om det finns dubbletter och ta bort dem
+print("\nAntal dubbletter i datasetet:", df.duplicated().sum())
+df.drop_duplicates(inplace=True)
+
+# Beräkna deskriptiv statistik för numeriska variabler
+print("\nDeskriptiv statistik för numeriska variabler:")
+print(df[numerical_vars].describe())
+
+# Plotta histogram för numeriska variabler
+for var in numerical_vars:
+    plt.figure()
+    sns.histplot(data=df, x=var, kde=True)
+    plt.title(f'Histogram of {var}')
+    plt.show()
+
+# Plotta boxplot för numeriska variabler
+for var in numerical_vars:
+    plt.figure()
+    sns.boxplot(data=df, y=var)
+    plt.title(f'Boxplot of {var}')
+    plt.show()
+
+# Plotta countplot för kategoriska variabler
+for var in categorical_vars:
+    plt.figure()
+    sns.countplot(data=df, x=var)
+    plt.title(f'Countplot of {var}')
+    plt.xticks(rotation=45)
+    plt.show()
+
+# Ta bort rader där kommunkoden är saknad
+cleaned_df = df.dropna(subset=['workplace_address.municipality_code'])
+
+# Konvertera kolumnen 'workplace_address.municipality_code' till heltal och räkna antalet förekomster av varje kod
+municipality_code_counts = cleaned_df['workplace_address.municipality_code'].astype(int).value_counts()
+
+# Välj de 10 vanligaste kommunkoderna för visualisering
+top_municipality_codes = municipality_code_counts.head(10)
+
+# Skapa ett stapeldiagram för att visa de vanligaste kommunkoderna
+plt.figure(figsize=(10, 6))
+top_municipality_codes.plot(kind='bar')
+plt.title('Top 10 Most Common Municipality Codes')
+plt.xlabel('Municipality Code')
+plt.ylabel('Frequency')
+plt.xticks(rotation=45)
+plt.grid(axis='y')
+plt.tight_layout()
+plt.show()
