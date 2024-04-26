@@ -1,0 +1,52 @@
+import pandas as pd
+
+# Läs in hela datasetet och ställ in low_memory=False för att undvika DtypeWarning
+df = pd.read_csv('2023.csv', low_memory=False)
+
+# Lista med gemensamma nyckelord för vården
+gemensamma_keywords = [
+    "Sjuksköterska",
+    "Specialistsjuksköterska",
+    "Legitimerad sjuksköterska",
+    "Undersköterska",
+    "Vårdassistent",
+    "Vårdbiträde",
+    "Barnmorska",
+    "Vårdpersonal",
+    "Omvårdnad",
+    "Sjukvård",
+    "Akutsjukvård",
+    "Primärvård",
+    "Intensivvård",
+    "Omvårdnadspersonal",
+    "Vårdområdet",
+    "Omsorgsarbetare",
+    "Vårdsamordnare",
+    "Äldreomsorg",
+    "Hemtjänst",
+    "Gynekologi",
+    "Gynekologisk vård",
+    "Graviditetsvård",
+    "Förlossning",
+    "Mödra- och barnhälsovård",
+    "Förlossningsavdelning"
+]
+
+# Skapa ett filter baserat på nyckelorden för vården
+filter_varden = df['headline'].str.contains('|'.join(gemensamma_keywords), case=False, na=False)
+
+# Skapa subset med historiska jobbannonser som innehåller minst ett nyckelord i description.text
+subset = df[filter_varden]
+
+# Välj ut angivna kolumner
+subset = subset[['application_deadline', 'headline', 'number_of_vacancies', 'publication_date', 
+                 'description.text', 'duration.label', 'employer.name', 
+                 'working_hours_type.label', 'workplace_address.municipality_code']]
+
+# Printa de första 5 raderna
+print(subset.head())
+
+# Spara subset som CSV-fil
+subset.to_csv('subset_with_keywords.csv', index=False)
+
+print("Subsetet har sparats som subset_with_keywords.csv")
