@@ -47,6 +47,6 @@ subset = subset[['application_deadline', 'headline', 'number_of_vacancies', 'pub
 print(subset.head())
 
 # Spara subset som CSV-fil
-subset.to_csv('subset_with_keywords.csv', index=False)
+subset.to_csv('subset_with_keywords2023.csv', index=False)
 
 print("Subsetet har sparats som subset_with_keywords.csv")
