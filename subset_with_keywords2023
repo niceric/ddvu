@@ -43,10 +43,23 @@ subset = subset[['application_deadline', 'headline', 'number_of_vacancies', 'pub
                  'description.text', 'duration.label', 'employer.name', 
                  'working_hours_type.label', 'workplace_address.municipality_code']]
 
+# Konvertera kolumnen "number_of_vacancies" till numerisk form
+subset['number_of_vacancies'] = pd.to_numeric(subset['number_of_vacancies'], errors='coerce')
+
 # Printa de första 5 raderna
 print(subset.head())
 
-# Spara subset som CSV-fil
+# Ta bort rader där antalet lediga platser är mer än 50
+subset = subset[subset['number_of_vacancies'] <= 50]
+
+# Ta bort alla exakta dubbletter i hela subsetet
+subset.drop_duplicates(inplace=True)
+
+# Ta bort rader där beskrivningstexten är saknad
+subset = subset.dropna(subset=['description.text'])
+
+# Spara subsetet som en CSV-fil
 subset.to_csv('subset_with_keywords2023.csv', index=False)
 
-print("Subsetet har sparats som subset_with_keywords.csv")
+print("Subsetet har sparats som subset_with_keywords2023.csv")
+
