@@ -1,6 +1,12 @@
 import pandas as pd
 import json
 
+
+with open("stopwords.txt", "r") as file:
+    stopwords = file.read().replace("\n", " ")
+stopwords_list = stopwords.split()
+
+
 def get_number_of_words(text):
     #counter = 0 
     total_words = text.split()
@@ -8,11 +14,12 @@ def get_number_of_words(text):
  
     for word in total_words:
         lowered = word.lower()
-        if lowered in words:
-            words[lowered] += 1
-            #counter += 1
-        else: 
-            words[lowered] = 1            
+        if lowered not in stopwords_list:
+            if lowered in words:
+                words[lowered] += 1
+                #counter += 1
+            else: 
+                words[lowered] = 1            
             #counter += 1
 
     return words
@@ -38,8 +45,9 @@ def get_list_of_words(text):
 
 
 
+
 pd.set_option("display.max.rows", 1000, "display.max.columns", 36)
-with open('dataset/subset.json', 'r') as file: 
+with open('dataset/2023.json', 'r') as file: 
     data = json.load(file)
 df = pd.json_normalize(data)
 
@@ -121,14 +129,23 @@ print(len(list_of_working_hours))
 text_labels = sorterade_2["description.text"]
 list_of_labels = text_labels.tolist()
 print(len(list_of_labels))
+
+dict_of_all_words = {}
+list_of_all_words = []
 for label in list_of_labels:
     
     print(label)
     print(f"-- Antal ord i annonsen: ")
     get_list_of_words(label)
     for new_dict in get_list_of_words(label):
+        dict_of_all_words[new_dict["char"]] = new_dict["num"]
+        list_of_all_words.append(f"Ordet: '{new_dict["char"]}' fanns {new_dict["num"]} gånger.")
         print(f"Ordet: '{new_dict["char"]}' fanns {new_dict["num"]} gånger.")
     print("--------------------------------------------------- NEXT")
+sort_dict_of_words = sorted(dict_of_all_words.items(), key = lambda x:x[1], reverse=True)
+print(f"SUPERLISTA: {sort_dict_of_words}")
+
+
     #print(get_list_of_words(label))
     
     #for dict in get_list_of_words(label):         
