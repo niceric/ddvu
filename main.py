@@ -46,11 +46,10 @@ def get_list_of_words(text):
 
 
 
-pd.set_option("display.max.rows", 1000, "display.max.columns", 36)
-with open('dataset/2023.json', 'r') as file: 
-    data = json.load(file)
-df = pd.json_normalize(data)
-
+#pd.set_option("display.max.rows", 1000, "display.max.columns", 36)
+#with open('subset_with_keywords2023.csv', 'r') as file: 
+#    data = json.load(file)
+df = pd.read_csv("dataset/subset_with_keywords2023.csv")
 
 #df = pd.read_json(r"dataset/subset.json")
 #df = df.json_normalize(df)
@@ -89,11 +88,11 @@ sorterade = df[df["headline"].str.contains("sjuk")]
 print(sorterade.filter(items = ["working_hours_type", "headline"], axis = 1))
 
 
-print("-------------------------- DISPLAY SELECTED ROWS FROM A FILTERED DF AND ONLY SHOWS 'last_publication_date' after 2006-12-31  ('sjuk') '.str.contains()' --------------------------")
-print(sorterade[sorterade["last_publication_date"] > "2006-12-31"])
+#print("-------------------------- DISPLAY SELECTED ROWS FROM A FILTERED DF AND ONLY SHOWS 'last_publication_date' after 2006-12-31  ('sjuk') '.str.contains()' --------------------------")
+#print(sorterade[sorterade["last_publication_date"] > "2006-12-31"])
     # sort_values gör att man kan sortera för värden inom en kolumn, här med datum
     # för mer info om sortering se: https://youtu.be/kB7FV-ijdqE?si=B8kDfABae9009dXR&t=562
-print(sorterade[sorterade["last_publication_date"] > "2006-12-31"].sort_values(by = "last_publication_date"))
+#print(sorterade[sorterade["last_publication_date"] > "2006-12-31"].sort_values(by = "last_publication_date"))
 
 
 #print("-------------------------- SORT FOR SJUK AND SETS THE INDEX AS EMPLOYER --------------------------")
@@ -142,8 +141,12 @@ for label in list_of_labels:
         list_of_all_words.append(f"Ordet: '{new_dict["char"]}' fanns {new_dict["num"]} gånger.")
         print(f"Ordet: '{new_dict["char"]}' fanns {new_dict["num"]} gånger.")
     print("--------------------------------------------------- NEXT")
-sort_dict_of_words = sorted(dict_of_all_words.items(), key = lambda x:x[1], reverse=True)
+sort_dict_of_words = sorted(dict_of_all_words.items(), key = lambda x:x[1], reverse=False)
+
+
+
 print(f"SUPERLISTA: {sort_dict_of_words}")
+print(len(sort_dict_of_words))
 
 
     #print(get_list_of_words(label))
