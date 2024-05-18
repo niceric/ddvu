@@ -1,6 +1,7 @@
 import pandas as pd
 from operator import itemgetter
 import re
+import csv
 
 # Lista med gemensamma nyckelord för vården
 gemensamma_keywords = [
@@ -81,6 +82,33 @@ filter_varden = df['headline'].str.contains('|'.join(gemensamma_keywords), case=
 
 # Skapa subset med historiska jobbannonser som innehåller minst ett nyckelord i description.text
 subset = df[filter_varden]
+subset_2 = df[filter_varden]
+
+# ------------------------------------------------------------------------------
+pattern_for_word = re.compile(r"(\b\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s)?erfarenhet(\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\b)?", re.IGNORECASE)
+
+def process_rows(reader):
+    results_for_word = []
+    for row in reader:
+        if len(results_for_word) < 10:
+            for match in pattern_for_word.finditer(row["description.text"]):
+                before = match.group(1) or ""
+                after = match.group(2) or ""
+                results_for_word.append(f"Context for -WORD-: {before.strip()} -WORD- {after.strip()}")
+            if len(results_for_word) == 10:
+                break 
+    return results_for_word
+
+with open("dataset/subset_with_keywords2023.csv", newline="", encoding="utf-8") as csvfile:
+    reader = csv.DictReader(csvfile)
+    result_for_words = process_rows(reader)
+
+for result in result_for_words:
+    print(result)
+
+
+
+
 
 # Välj ut angivna kolumner
 subset = subset[['application_deadline', 'headline', 'number_of_vacancies', 'publication_date', 
@@ -134,8 +162,8 @@ def dict_string_and_num(list):
 total_number = dict_string_and_num(splitting_and_counting(list_of_labels)) 
 
 
-print(total_number)
-print(len(total_number))
+#print(total_number)
+#print(len(total_number))
 
 
-pattern_for_word = re.compile(r"(\b\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s)?augmented reality(\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\b)?")
+
