@@ -104,7 +104,7 @@ def process_rows(reader):
 
 with open("dataset/subset_with_keywords2023.csv", newline="", encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
-    result_for_words = process_rows(reader)
+    result_for_word = process_rows(reader)
 
 
 
@@ -161,7 +161,7 @@ def dict_string_and_num(list):
     return sorting_dict(giant_dict)
 
 
-total_number = dict_string_and_num(splitting_and_counting(list_of_labels)) 
+total_number = dict_string_and_num(splitting_and_counting(result_for_word)) 
 
 # prints the list with tuples containg pair of words and their occurens 
 print(total_number)
@@ -170,10 +170,10 @@ print(total_number)
 
 # prints the context for the word choosen
 with open("context_file.txt", "w") as context_file: 
-    for result in result_for_words:
+    for result in result_for_word:
         if len(result) > 10:
             context_file.write(f"{result}\n")
-            print(result)
+            #print(result)
         
         
         
