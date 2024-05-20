@@ -90,12 +90,12 @@ pattern_for_word = re.compile(r"(\b\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s
 def process_rows(reader):
     results_for_word = []
     for row in reader:
-        if len(results_for_word) < 10:
+        if len(results_for_word) < 100:
             for match in pattern_for_word.finditer(row["description.text"]):
                 before = match.group(1) or ""
                 after = match.group(2) or ""
-                results_for_word.append(f"Context for -WORD-: {before.strip()} -WORD- {after.strip()}")
-            if len(results_for_word) == 10:
+                results_for_word.append(f"Context for 'erfarenhet': {before.strip()} erfarenhet {after.strip()}")
+            if len(results_for_word) == 100:
                 break 
     return results_for_word
 
@@ -103,8 +103,7 @@ with open("dataset/subset_with_keywords2023.csv", newline="", encoding="utf-8") 
     reader = csv.DictReader(csvfile)
     result_for_words = process_rows(reader)
 
-for result in result_for_words:
-    print(result)
+
 
 
 
@@ -161,9 +160,12 @@ def dict_string_and_num(list):
 
 total_number = dict_string_and_num(splitting_and_counting(list_of_labels)) 
 
-
-#print(total_number)
+# prints the list with tuples containg pair of words and their occurens 
+print(total_number)
 #print(len(total_number))
 
 
+# prints the context for the word choosen 
+for result in result_for_words:
+    print(result)
 
