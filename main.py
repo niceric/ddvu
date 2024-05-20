@@ -85,17 +85,20 @@ subset = df[filter_varden]
 subset_2 = df[filter_varden]
 
 # ------------------------------------------------------------------------------
-pattern_for_word = re.compile(r"(\b\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s)?erfarenhet(\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\b)?", re.IGNORECASE)
+
+word_for_pattern_search = "erfarenhet"
+
+pattern_for_word = re.compile(r"(\b\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s)?förmåga(\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\s\S+\b)?", re.IGNORECASE)
 
 def process_rows(reader):
     results_for_word = []
     for row in reader:
-        if len(results_for_word) < 100:
+        if len(results_for_word) < 10000:
             for match in pattern_for_word.finditer(row["description.text"]):
                 before = match.group(1) or ""
                 after = match.group(2) or ""
-                results_for_word.append(f"Context for 'erfarenhet': {before.strip()} erfarenhet {after.strip()}")
-            if len(results_for_word) == 100:
+                results_for_word.append(f"{before.strip()} förmåga {after.strip()}")
+            if len(results_for_word) == 10000:
                 break 
     return results_for_word
 
@@ -165,7 +168,17 @@ print(total_number)
 #print(len(total_number))
 
 
-# prints the context for the word choosen 
-for result in result_for_words:
-    print(result)
+# prints the context for the word choosen
+with open("context_file.txt", "w") as context_file: 
+    for result in result_for_words:
+        if len(result) > 10:
+            context_file.write(f"{result}\n")
+            print(result)
+        
+        
+        
+        #print("-------------------------------------")
 
+
+# skapa en textfil med meningarna för context uppradade 
+# 
