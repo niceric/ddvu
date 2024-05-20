@@ -168,16 +168,18 @@ print(total_number)
 #print(len(total_number))
 
 
-# prints the context for the word choosen
+# writes the context for the word choosen to file
 with open("context_file.txt", "w") as context_file: 
     for result in result_for_word:
         if len(result) > 10:
             context_file.write(f"{result}\n")
             #print(result)
-        
-        
-        
-        #print("-------------------------------------")
+  
+# writes the most common words from the context scentences for "förmåga"
+with open("word_from_context.txt", "w") as word_from_context:
+    for tuple in total_number[(len(total_number)-200):len(total_number)]:
+        word_from_context.write(f"{tuple[0]}\n")
+
 
 
 # skapa en textfil med meningarna för context uppradade 
