@@ -97,9 +97,9 @@ if st.button("Analysera") and uploaded_files and job_ad_file:
             # Parse the result
             candidate_lines = result.strip().split("\n\n")
             candidates = []
-            for block in candidate_lines:
+            for i, block in enumerate(candidate_lines):
                 lines = block.split("\n")
-                candidate_info = {}
+                candidate_info = {"application": applications[i], "file_bytes": application_files[i]}  # Store the original application text and byte content
                 for line in lines:
                     if line.startswith("**Namn:**"):
                         candidate_info["name"] = line.replace("**Namn:**", "").strip()
@@ -123,11 +123,10 @@ if st.button("Analysera") and uploaded_files and job_ad_file:
                     st.write(f"Telefon: {candidate.get('phone', 'Ingen telefon tillgänglig')}")
                     st.write(f"E-post: {candidate.get('email', 'Ingen e-post tillgänglig')}")
                     st.write(f"Förklaring: {candidate.get('explanation', 'Ingen förklaring tillgänglig')}")
-                    if 'file_bytes' in candidate:
-                        images = pdf_to_images(candidate['file_bytes'])
-                        cols = st.columns(3)  # Create 3 columns for displaying images
-                        for idx, img in enumerate(images):
-                            cols[idx % 3].image(img, caption=f"{candidate['name']} - Sida {idx + 1}")
+                    images = pdf_to_images(candidate['file_bytes'])
+                    cols = st.columns(3)  # Create 3 columns for displaying images
+                    for idx, img in enumerate(images):
+                        cols[idx % 3].image(img, caption=f"{candidate.get('name', 'Ingen namn tillgänglig')} - Sida {idx + 1}")
 
             st.write("Ej kvalificerade ansökningar")
             for i, candidate in enumerate(not_qualified, 1):
@@ -135,8 +134,7 @@ if st.button("Analysera") and uploaded_files and job_ad_file:
                     st.write(f"Telefon: {candidate.get('phone', 'Ingen telefon tillgänglig')}")
                     st.write(f"E-post: {candidate.get('email', 'Ingen e-post tillgänglig')}")
                     st.write(f"Förklaring: {candidate.get('explanation', 'Ingen förklaring tillgänglig')}")
-                    if 'file_bytes' in candidate:
-                        images = pdf_to_images(candidate['file_bytes'])
-                        cols = st.columns(3)  # Create 3 columns for displaying images
-                        for idx, img in enumerate(images):
-                            cols[idx % 3].image(img, caption=f"{candidate['name']} - Sida {idx + 1}")
+                    images = pdf_to_images(candidate['file_bytes'])
+                    cols = st.columns(3)  # Create 3 columns for displaying images
+                    for idx, img in enumerate(images):
+                        cols[idx % 3].image(img, caption=f"{candidate.get('name', 'Ingen namn tillgänglig')} - Sida {idx + 1}")
