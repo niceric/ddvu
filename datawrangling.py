@@ -92,3 +92,6 @@ subset.to_csv(f'dataset/subset_with_keywords{selected_year}.csv', index=False)
 
 print(f"A filterted subset has been saved with the filename: subset_with_keywords{selected_year}.csv")
 
+
+# merge the biyearly (2007 - 2023) subsets into one collective subset for the ML process
+# 
