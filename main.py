@@ -110,8 +110,6 @@ with open("dataset/subset_with_keywords2023.csv", newline="", encoding="utf-8") 
 
 
 
-
-
 # Välj ut angivna kolumner
 subset = subset[['application_deadline', 'headline', 'number_of_vacancies', 'publication_date', 
                  'description.text', 'duration.label', 'employer.name', 
