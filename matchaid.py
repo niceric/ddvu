@@ -11,7 +11,7 @@ from PIL import Image
 from streamlit.delta_generator import DeltaGenerator
 
 # Configure your OpenAI API key
-openai.api_key = st.secrets["openai"]["api_key"]
+openai.api_key = 123 #st.secrets["openai"]["api_key"]
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
