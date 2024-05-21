@@ -31,9 +31,9 @@ def display_centered_header(text: str, level: int = 1, container: Optional[Delta
             unsafe_allow_html=True)
 
 # Sökväg logga
-logo_path = "/Users/ellenbergstrom/Desktop/MatchAId_1.png"
+logo_path = "/MatchAId_1.png"
 logo_base64 = get_base64_image(logo_path)
-background_path = "/Users/ellenbergstrom/Desktop/background.png"
+background_path = "/background.png"
 background_base64 = get_base64_image(background_path)
 
 # Färger och layout för webbsidan
