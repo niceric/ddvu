@@ -174,9 +174,9 @@ with open("context_file.txt", "w") as context_file:
             #print(result)
   
 # writes the most common words from the context scentences for "förmåga"
-with open("word_from_context.txt", "w") as word_from_context:
-    for tuple in total_number[(len(total_number)-200):len(total_number)]:
-        word_from_context.write(f"{tuple[0]}\n")
+#with open("word_from_context_2.txt", "w") as word_from_context: # added "_2" to the textfile to prevent overwriting the sorted/manually sorted .txt file 
+#    for tuple in total_number[(len(total_number)-200):len(total_number)]:
+#        word_from_context.write(f"{tuple[0]}\n")
 
 
 
