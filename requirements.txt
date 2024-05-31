@@ -1,0 +1,5 @@
+streamlit==1.19.0
+openai==0.28.0
+pdfplumber
+PyMuPDF
+Pillow
